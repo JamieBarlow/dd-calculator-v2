@@ -1,4 +1,8 @@
+// Styling
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+
+// Components
 import {
   Button,
   Header,
@@ -15,20 +19,21 @@ import {
   Step,
 } from "@cruk/cruk-react-components";
 
-// React datepicker with UK localisation
+// Custom React datepicker with UK localisation
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import enGB from "date-fns/locale/en-GB";
 registerLocale("enGB", enGB);
 setDefaultLocale("enGB");
-import { RxCalendar } from "react-icons/rx";
 
+// Icons
+import { RxCalendar } from "react-icons/rx";
 import { FaPlus, FaRegQuestionCircle } from "react-icons/fa";
 import { FaCalculator } from "react-icons/fa6";
 
+// Custom styling with styled-components
 import styled from "styled-components";
-
 const InlineText = styled(Text)`
   display: inline;
 `;
@@ -163,7 +168,7 @@ function App() {
               <option value="2030">2030</option>
             </Select>
             <Button
-              id="addCompanyDatesBtn"
+              id="calculateDatesBtn"
               type="submit"
               style={{ margin: 10 }}
               size="m"
