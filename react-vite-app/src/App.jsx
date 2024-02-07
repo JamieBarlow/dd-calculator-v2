@@ -56,7 +56,7 @@ function App() {
         <LeftBadge backgroundColor="tertiary" borderColor="primary">
           1
         </LeftBadge>
-        <Text textSize="l">
+        <Text marginHorizontal="xl" textSize="l">
           Enter any extra company holiday dates which aren't UK bank holidays
           (e.g. any extra Christmas office closure dates) from the year you are
           generating results for, <b>and</b> for the year previous to this.
@@ -67,6 +67,7 @@ function App() {
           icon={<FaRegQuestionCircle />}
           size="1.5em"
           titleTextColor="#fff"
+          marginHorizontal="xl"
         >
           <Collapse
             headerTitleText="More info"
@@ -92,13 +93,13 @@ function App() {
             </Box>
           </Collapse>
         </InfoBox>
-        <Text textSize="l" marginTop="s">
+        <Text marginHorizontal="xl" textSize="l" marginTop="s">
           Click 'Add' to exclude them from the list of potential working days.
         </Text>
-        <Box margin="s" backgroundColor="primary">
+        <Box marginHorizontal="xl" backgroundColor="primary">
           <form id="extra-dates__form">
             <Text textSize="l" textColor="textOnPrimary">
-              <label style={{ margin: 10 }} htmlFor="company-dates">
+              <label htmlFor="company-dates">
                 Please enter in DD/MM/YYYY format and click 'Add' after each
                 entry:
               </label>
@@ -125,10 +126,10 @@ function App() {
         <LeftBadge backgroundColor="tertiary" borderColor="primary">
           2
         </LeftBadge>
-        <Text textSize="l" margin="s">
+        <Text textSize="l" marginHorizontal="xl" margin="s">
           Choose the year you want to calculate processing dates for.
         </Text>
-        <Box margin="s" backgroundColor="primary">
+        <Box marginHorizontal="xl" margin="s" backgroundColor="primary">
           <form action="#" method="GET" id="chooseYear">
             <Text textSize="l" textColor="textOnPrimary">
               <label htmlFor="year-select" className="form-label">
