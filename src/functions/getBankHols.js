@@ -1,3 +1,5 @@
+import displayBankHols from "./displayBankHols";
+
 let namedDaysOfWeek = [
   "Sunday",
   "Monday",
@@ -55,7 +57,7 @@ export default function getBankHols(year) {
       const bankHolNames = nonProcessing.map((result) => result.title);
 
       return Promise.all([
-        // displayBankHols(dates, daysOfWeek, bankHolNames),
+        displayBankHols(dates, daysOfWeek, bankHolNames),
         // getWeekends(year),
       ]).then(() => {
         let resultsObj = {
