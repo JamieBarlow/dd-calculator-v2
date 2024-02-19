@@ -42,7 +42,6 @@ const tooltipList = [...tooltipTriggerList].map(
 );
 
 function getBankHols(year) {
-  let results, dates;
   return fetch(`https://www.gov.uk/bank-holidays.json`)
     .then(
       (res) => {
@@ -55,22 +54,28 @@ function getBankHols(year) {
       (networkError) => console.log(networkError.message)
     )
     .then((data) => {
-      results = data["england-and-wales"].events;
-      console.log(results);
+      let apiResults = data["england-and-wales"].events;
+      // console.log(results);
       let nonProcessing = [];
-      let thisYearResults = results.filter(
+      let thisYearResults = apiResults.filter(
         (result) => result.date.slice(0, 4) === year
       );
-      let lastYearResults = results.filter(
-        (result) => result.date.slice(0, 4) === (year - 1).toString()
-      );
-      let endOflastYearResults = lastYearResults.filter(
-        (item) => item.date.slice(5, 7) === "12"
-      );
-      nonProcessing.push(...thisYearResults, ...endOflastYearResults);
+      let endOfLastYearResults = apiResults.filter((result) => {
+        const resultYear = parseInt(result.date.slice(0, 4));
+        const resultMonth = parseInt(result.date.slice(5, 7));
+        return resultYear === year - 1 && resultMonth === 12;
+      });
+
+      // let lastYearResults = apiResults.filter(
+      //   (result) => result.date.slice(0, 4) === (year - 1).toString()
+      // );
+      // let endOflastYearResults = lastYearResults.filter(
+      //   (item) => item.date.slice(5, 7) === "12"
+      // );
+      nonProcessing.push(...thisYearResults, ...endOfLastYearResults);
 
       // Extract dates from nonProcessing results
-      dates = nonProcessing.map((result) => result.date);
+      let dates = nonProcessing.map((result) => result.date);
 
       // Extract day of week from results
       const daysOfWeek = dates.map((result) => {
@@ -83,26 +88,26 @@ function getBankHols(year) {
       const bankHolNames = nonProcessing.map((result) => result.title);
 
       return Promise.all([
-        displayBankHols(dates, daysOfWeek, bankHolNames),
-        getWeekends(year),
+        // displayBankHols(dates, daysOfWeek, bankHolNames),
+        // getWeekends(year),
       ]).then(() => {
         let resultsObj = {
-          results,
+          apiResults,
           dates,
           daysOfWeek,
+          bankHolNames,
         };
-        console.log("dates!!", dates);
-        console.log("results!", resultsObj);
-        console.log("daysOfWeek!!", daysOfWeek);
-        console.log("APPOUTPUT:", processingDaysObj);
-        let appOutput = processingDaysObj;
-        nonProcessingDays.forEach((date) => {
-          const newDate = convertJSDateToDMY(date);
-          console.log(newDate);
-        });
-        console.log("NONPROCESSINGDAYS:", nonProcessingDays);
-        removeDeleteBtns();
-        return appOutput;
+        console.log("All data from API call:", apiResults);
+        console.log("Bank hol dates:", dates);
+        console.log("Bank hol days of week:", daysOfWeek);
+        console.log("Bank hol names:", bankHolNames);
+        // nonProcessingDays.forEach((date) => {
+        //   const newDate = convertJSDateToDMY(date);
+        //   console.log(newDate);
+        // });
+        // console.log("NONPROCESSINGDAYS:", nonProcessingDays);
+        // removeDeleteBtns();
+        return resultsObj;
         // return processingDaysObj;
       });
     });
