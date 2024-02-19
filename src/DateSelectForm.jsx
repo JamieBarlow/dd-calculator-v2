@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import AppContext from "./context/AppContext";
 import { Select, Text, Button } from "@cruk/cruk-react-components";
 import { FaCalculator } from "react-icons/fa6";
 
@@ -13,7 +14,6 @@ let namedDaysOfWeek = [
 ];
 
 function getBankHols(year) {
-  let results, dates;
   return fetch(`https://www.gov.uk/bank-holidays.json`)
     .then(
       (res) => {
@@ -26,22 +26,28 @@ function getBankHols(year) {
       (networkError) => console.log(networkError.message)
     )
     .then((data) => {
-      results = data["england-and-wales"].events;
+      let apiResults = data["england-and-wales"].events;
       // console.log(results);
       let nonProcessing = [];
-      let thisYearResults = results.filter(
+      let thisYearResults = apiResults.filter(
         (result) => result.date.slice(0, 4) === year
       );
-      let lastYearResults = results.filter(
-        (result) => result.date.slice(0, 4) === (year - 1).toString()
-      );
-      let endOflastYearResults = lastYearResults.filter(
-        (item) => item.date.slice(5, 7) === "12"
-      );
-      nonProcessing.push(...thisYearResults, ...endOflastYearResults);
+      let endOfLastYearResults = apiResults.filter((result) => {
+        const resultYear = parseInt(result.date.slice(0, 4));
+        const resultMonth = parseInt(result.date.slice(5, 7));
+        return resultYear === year - 1 && resultMonth === 12;
+      });
+
+      // let lastYearResults = apiResults.filter(
+      //   (result) => result.date.slice(0, 4) === (year - 1).toString()
+      // );
+      // let endOflastYearResults = lastYearResults.filter(
+      //   (item) => item.date.slice(5, 7) === "12"
+      // );
+      nonProcessing.push(...thisYearResults, ...endOfLastYearResults);
 
       // Extract dates from nonProcessing results
-      dates = nonProcessing.map((result) => result.date);
+      let dates = nonProcessing.map((result) => result.date);
 
       // Extract day of week from results
       const daysOfWeek = dates.map((result) => {
@@ -58,15 +64,15 @@ function getBankHols(year) {
         // getWeekends(year),
       ]).then(() => {
         let resultsObj = {
-          results,
+          apiResults,
           dates,
           daysOfWeek,
+          bankHolNames,
         };
-        console.log("dates!!", dates);
-        console.log("results!", resultsObj);
-        console.log("daysOfWeek!!", daysOfWeek);
-        console.log("Bankholnames!", bankHolNames);
-        console.log("APPOUTPUT:", resultsObj);
+        console.log("All data from API call:", apiResults);
+        console.log("Bank hol dates:", dates);
+        console.log("Bank hol days of week:", daysOfWeek);
+        console.log("Bank hol names:", bankHolNames);
         // nonProcessingDays.forEach((date) => {
         //   const newDate = convertJSDateToDMY(date);
         //   console.log(newDate);
@@ -80,11 +86,11 @@ function getBankHols(year) {
 }
 
 export default function DateSelectForm() {
-  const [selectedYear, setSelectedYear] = useState("Select a year");
+  const { selectedYear, setSelectedYear } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const generateDates = (e) => {
     e.preventDefault();
     getBankHols(selectedYear);
   };
@@ -93,7 +99,7 @@ export default function DateSelectForm() {
   }, [selectedYear]);
 
   return (
-    <form action="#" method="GET" id="chooseYear" onSubmit={handleSubmit}>
+    <form action="#" method="GET" id="chooseYear" onSubmit={generateDates}>
       <Text textSize="l" textColor="textOnPrimary">
         <label htmlFor="year-select" className="form-label">
           Choose a year and select 'calculate dates':
