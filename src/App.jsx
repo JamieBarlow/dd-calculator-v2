@@ -12,12 +12,12 @@ import {
   Collapse,
   InfoBox,
   Box,
-  Select,
   Carousel,
   Pagination,
   Footer,
   Step,
 } from "@cruk/cruk-react-components";
+import DateSelectForm from "./DateSelectForm";
 
 // Custom React datepicker with UK localisation
 import DatePicker from "react-datepicker";
@@ -30,7 +30,6 @@ setDefaultLocale("enGB");
 // Icons
 import { RxCalendar } from "react-icons/rx";
 import { FaPlus, FaRegQuestionCircle } from "react-icons/fa";
-import { FaCalculator } from "react-icons/fa6";
 
 // Custom styling with styled-components
 import styled from "styled-components";
@@ -135,48 +134,7 @@ function App() {
           Choose the year you want to calculate processing dates for.
         </Text>
         <Box marginHorizontal="xl" margin="s" backgroundColor="primary">
-          <form action="#" method="GET" id="chooseYear">
-            <Text textSize="l" textColor="textOnPrimary">
-              <label htmlFor="year-select" className="form-label">
-                Choose a year and select 'calculate dates':
-              </label>
-            </Text>
-
-            <Select
-              className="form-select"
-              aria-label="year select"
-              name="year"
-              id="year-select"
-              required
-            >
-              <option value="" selected>
-                Select a year
-              </option>
-              <option value="2017">2017</option>
-              <option value="2018">2018</option>
-              <option value="2019">2019</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-              <option value="2026">2026</option>
-              <option value="2027">2027</option>
-              <option value="2028">2028</option>
-              <option value="2029">2029</option>
-              <option value="2030">2030</option>
-            </Select>
-            <Button
-              id="calculateDatesBtn"
-              type="submit"
-              style={{ margin: 10 }}
-              size="m"
-            >
-              Calculate Dates
-              <FaCalculator />
-            </Button>
-          </form>
+          <DateSelectForm />
         </Box>
       </Box>
       <Footer />
