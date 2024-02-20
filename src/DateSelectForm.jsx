@@ -6,14 +6,18 @@ import { FaCalculator } from "react-icons/fa6";
 import getBankHols from "./functions/getBankHols";
 
 export default function DateSelectForm() {
-  const { selectedYear, setSelectedYear, setCalculated, setNonProcessingDays } = useContext(AppContext);
+  const { selectedYear, setSelectedYear, setCalculated, nonProcessingDays, setNonProcessingDays, setBankHols } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const bankHols = await getBankHols(selectedYear);
-    setNonProcessingDays(bankHols);
+    setNonProcessingDays((prevNonProcessingDays) => [
+      ...prevNonProcessingDays,
+      ...bankHols
+    ]);
+    setBankHols(bankHols);
     setCalculated(true);
   };
   useEffect(() => {

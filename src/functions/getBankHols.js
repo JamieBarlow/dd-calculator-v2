@@ -60,11 +60,12 @@ export default function getBankHols(year) {
         // displayBankHols(dates, daysOfWeek, bankHolNames),
         // getWeekends(year),
       ]).then(() => {
-        let bankHols = {
-            dates,
-            daysOfWeek,
-            bankHolNames,
-          };
+        // Returns array of objects
+        let bankHols = dates.map((date, i) => ({
+          date: date,
+          dayOfWeek: daysOfWeek[i],
+          bankHolName: bankHolNames[i]
+        }))
         console.log("All data from API call:", apiResults);
         console.log("Bank hol dates:", dates);
         console.log("Bank hol days of week:", daysOfWeek);
