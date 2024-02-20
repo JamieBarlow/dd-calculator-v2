@@ -1,3 +1,13 @@
+const namedDaysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 // Tests date is in YYYY-MM-DD format
 const testGovDateFormat = (date) => {
   const regex = new RegExp("([0-9]+(-[0-9]+)+)");
@@ -58,4 +68,5 @@ export const dateUtils = {
   convertGovDateToObject,
   convertUKDateToObject,
   convertJSDateToDMY,
+  namedDaysOfWeek
 };

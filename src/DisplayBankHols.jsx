@@ -1,7 +1,5 @@
 import { useContext } from "react";
 import AppContext from "./context/AppContext";
-import { dateUtils } from "./functions/dateUtils"
-const { convertGovDateToDMY } = dateUtils;
 import { Heading } from "@cruk/cruk-react-components";
 import Table from "react-bootstrap/Table";
 
@@ -22,7 +20,7 @@ export default function DisplayBankHols() {
                 {bankHols.map((item, index) => {
                 return (
                     <tr key={index}>
-                        <td>{convertGovDateToDMY(item.date)}</td>
+                        <td>{item.displayDate}</td>
                         <td>{item.dayOfWeek}</td>
                         <td>{item.bankHolName}</td>
                     </tr>

@@ -1,14 +1,5 @@
-import displayBankHols from "./displayBankHols";
-
-let namedDaysOfWeek = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+import { dateUtils } from "./dateUtils";
+const { namedDaysOfWeek, convertGovDateToObject, convertGovDateToDMY } = dateUtils;
 
 export default function getBankHols(year) {
   return fetch(`https://www.gov.uk/bank-holidays.json`)
@@ -43,9 +34,23 @@ export default function getBankHols(year) {
       // );
       nonProcessing.push(...thisYearResults, ...endOfLastYearResults);
 
-      // Extract dates from nonProcessing results
+      // Extract dates (YYYY-MM-DD) from nonProcessing results
       let dates = nonProcessing.map((result) => result.date);
 
+      // Get JS dates
+      let JSdates = [];
+      for (let date of dates) {
+        let converted = convertGovDateToObject(date);
+        JSdates.push(converted);
+      }
+
+      // Get display dates (DD/MM/YYYY)
+      let displayDates = [];
+      for (let date of dates) {
+        let converted = convertGovDateToDMY(date);
+        displayDates.push(converted);
+      }
+      
       // Extract day of week from results
       const daysOfWeek = dates.map((result) => {
         let date = new Date(result);
@@ -62,10 +67,11 @@ export default function getBankHols(year) {
       ]).then(() => {
         // Returns array of objects
         let bankHols = dates.map((date, i) => ({
-          date: date,
+          displayDate: displayDates[i],
+          JSdate: JSdates[i], 
           dayOfWeek: daysOfWeek[i],
-          bankHolName: bankHolNames[i]
-        }))
+          bankHolName: bankHolNames[i],
+        }));
         console.log("All data from API call:", apiResults);
         console.log("Bank hol dates:", dates);
         console.log("Bank hol days of week:", daysOfWeek);
@@ -75,7 +81,7 @@ export default function getBankHols(year) {
         //   console.log(newDate);
         // });
         // console.log("NONPROCESSINGDAYS:", nonProcessingDays);
-        
+
         // removeDeleteBtns();
 
         return bankHols;

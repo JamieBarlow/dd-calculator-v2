@@ -4,25 +4,35 @@ import { Select, Text, Button } from "@cruk/cruk-react-components";
 import { FaCalculator } from "react-icons/fa6";
 
 import getBankHols from "./functions/getBankHols";
+import getWeekends from "./functions/getWeekends";
 
 export default function DateSelectForm() {
-  const { selectedYear, setSelectedYear, setCalculated, nonProcessingDays, setNonProcessingDays, setBankHols } = useContext(AppContext);
+  const { selectedYear, setSelectedYear, setCalculated, nonProcessingDays, setNonProcessingDays, setBankHols, weekends, setWeekends } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Generate bank hols and add to state
     const bankHols = await getBankHols(selectedYear);
     setNonProcessingDays((prevNonProcessingDays) => [
       ...prevNonProcessingDays,
       ...bankHols
     ]);
     setBankHols(bankHols);
+    // Generate weekends and add to state
+    const weekendDates = getWeekends(selectedYear);
+    setWeekends(weekendDates);
+    setNonProcessingDays((prevNonProcessingDays) => [
+      ...prevNonProcessingDays,
+      ...weekendDates
+    ]);
+    // Allow for results to display
     setCalculated(true);
   };
   useEffect(() => {
-    console.log(selectedYear);
-  }, [selectedYear]);
+    console.log(nonProcessingDays);
+  }, [nonProcessingDays]);
 
   return (
     <form action="#" method="GET" id="chooseYear" onSubmit={handleSubmit}>
