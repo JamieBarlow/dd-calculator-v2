@@ -57,15 +57,14 @@ export default function getBankHols(year) {
       const bankHolNames = nonProcessing.map((result) => result.title);
 
       return Promise.all([
-        displayBankHols(dates, daysOfWeek, bankHolNames),
+        // displayBankHols(dates, daysOfWeek, bankHolNames),
         // getWeekends(year),
       ]).then(() => {
-        let resultsObj = {
-          apiResults,
-          dates,
-          daysOfWeek,
-          bankHolNames,
-        };
+        let bankHols = {
+            dates,
+            daysOfWeek,
+            bankHolNames,
+          };
         console.log("All data from API call:", apiResults);
         console.log("Bank hol dates:", dates);
         console.log("Bank hol days of week:", daysOfWeek);
@@ -75,9 +74,10 @@ export default function getBankHols(year) {
         //   console.log(newDate);
         // });
         // console.log("NONPROCESSINGDAYS:", nonProcessingDays);
+        
         // removeDeleteBtns();
-        return resultsObj;
-        // return processingDaysObj;
+
+        return bankHols;
       });
     });
 }

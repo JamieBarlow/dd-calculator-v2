@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import AppContext from "./context/AppContext";
 import { Select, Text, Button } from "@cruk/cruk-react-components";
 import { FaCalculator } from "react-icons/fa6";
@@ -6,23 +6,25 @@ import { FaCalculator } from "react-icons/fa6";
 import getBankHols from "./functions/getBankHols";
 
 export default function DateSelectForm() {
-  const { selectedYear, setSelectedYear } = useContext(AppContext);
+  const { selectedYear, setSelectedYear, setCalculated, setNonProcessingDays } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
-  const generateDates = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    getBankHols(selectedYear);
+    const bankHols = await getBankHols(selectedYear);
+    setNonProcessingDays(bankHols);
+    setCalculated(true);
   };
   useEffect(() => {
     console.log(selectedYear);
   }, [selectedYear]);
 
   return (
-    <form action="#" method="GET" id="chooseYear" onSubmit={generateDates}>
+    <form action="#" method="GET" id="chooseYear" onSubmit={handleSubmit}>
       <Text textSize="l" textColor="textOnPrimary">
         <label htmlFor="year-select" className="form-label">
-          Choose a year and select 'calculate dates':
+          {`Choose a year and select 'calculate dates':`}
         </label>
       </Text>
       <Select

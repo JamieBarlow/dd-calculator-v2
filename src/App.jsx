@@ -18,6 +18,7 @@ import {
   Step,
 } from "@cruk/cruk-react-components";
 import DateSelectForm from "./DateSelectForm";
+import ResultsDisplay from "./ResultsDisplay";
 
 // Context API
 import { ContextProvider } from "./context/AppContext";
@@ -142,6 +143,7 @@ function App() {
             <DateSelectForm />
           </Box>
         </Box>
+        <ResultsDisplay />
         <Footer />
       </ContextProvider>
     </>
