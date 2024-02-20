@@ -6,6 +6,7 @@ export const ContextProvider = ({ children }) => {
   const [nonProcessingDays, setNonProcessingDays] = useState([]);
   const [bankHols, setBankHols] = useState([]);
   const [weekends, setWeekends] = useState([]);
+  const [processingDays, setProcessingDays] = useState([]);
   const [selectedYear, setSelectedYear] = useState("Select a year");
   const [calculated, setCalculated] = useState(false);
   return (
@@ -20,7 +21,9 @@ export const ContextProvider = ({ children }) => {
         bankHols,
         setBankHols,
         weekends,
-        setWeekends
+        setWeekends,
+        processingDays,
+        setProcessingDays
       }}
     >
       {children}

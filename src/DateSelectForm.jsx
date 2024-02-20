@@ -5,9 +5,10 @@ import { FaCalculator } from "react-icons/fa6";
 
 import getBankHols from "./functions/getBankHols";
 import getWeekends from "./functions/getWeekends";
+import displayProcessingDays from "./functions/displayProcessingDays";
 
 export default function DateSelectForm() {
-  const { selectedYear, setSelectedYear, setCalculated, nonProcessingDays, setNonProcessingDays, setBankHols, weekends, setWeekends } = useContext(AppContext);
+  const { selectedYear, setSelectedYear, setCalculated, nonProcessingDays, setNonProcessingDays, setBankHols, weekends, setWeekends, processingDays, setProcessingDays } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
@@ -27,6 +28,10 @@ export default function DateSelectForm() {
       ...prevNonProcessingDays,
       ...weekendDates
     ]);
+    // Generate processing days and add to state
+    const finalResults = displayProcessingDays(selectedYear);
+    setProcessingDays(finalResults);
+
     // Allow for results to display
     setCalculated(true);
   };

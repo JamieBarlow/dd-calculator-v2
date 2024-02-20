@@ -1,22 +1,3 @@
-//     const tableBody = document.querySelector("#weekendsTable__body");
-//     let rowIndex = 1;
-//     for (let i = 0; i < dates.length; i++) {
-//       const row = document.createElement("tr");
-//       tableBody.append(row);
-//       // Generate column 1 cells (dates)
-//       const dateCell = document.createElement("th");
-//       dateCell.scope = "row";
-//       dateCell.innerText = dates[i];
-//       tableBody.childNodes[rowIndex].append(dateCell);
-//       // Generate column 2 cells (day of week)
-//       const dayCell = document.createElement("td");
-//       dayCell.innerText = weekendDays[i];
-//       tableBody.childNodes[rowIndex].append(dayCell);
-//       rowIndex++;
-//     }
-//     console.log(`Display weekends: ${nonProcessingDays[2]}`);
-//     displayProcessingDays();
-//   };
 import { useContext } from "react";
 import AppContext from "./context/AppContext";
 import { Heading } from "@cruk/cruk-react-components";
