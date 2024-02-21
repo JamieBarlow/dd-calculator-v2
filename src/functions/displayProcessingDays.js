@@ -3,32 +3,40 @@ const { convertUKDateToObject, convertJSDateToDMY } = dateUtils;
 
 // Display processing dates
 export default function displayProcessingDays(year) {
-  // Column A dates - capture 5th or 19th of month
+  // Column A dates - capture 5th or 19th of month as display dates
   let month = 1;
-  let colA = [];
+  let displayDates = [];
   for (let i = 0; i < 24; i++) {
     if (i % 2 === 0) {
       let claimDate = `05/${month.toLocaleString("en-US", {
         minimumIntegerDigits: 2,
       })}/${year}`;
-      colA.push(convertUKDateToObject(claimDate));
+      displayDates.push(claimDate);
     } else if (i % 2 === 1) {
       let claimDate = `19/${month.toLocaleString("en-US", {
         minimumIntegerDigits: 2,
       })}/${year}`;
-      colA.push(convertUKDateToObject(claimDate));
+      displayDates.push(claimDate);
       month++;
     }
   }
-  console.log("COL-A")
+
+  // Convert DD/MM/YYYY dates to JS format
+  const JSDates = displayDates.map((date) => convertUKDateToObject(date));
+  let colA = {
+    displayDates,
+    JSDates,
+  };
+
+  console.log("COL-A");
   console.log(colA);
-  let colB = [];
-  let colC = [];
-  let colD = [];
-  let colE = [];
-  let colF = [];
-  let colG = [];
-  let colH = [];
+  let colB = colA;
+  let colC = colA;
+  let colD = colA;
+  let colE = colA;
+  let colF = colA;
+  let colG = colA;
+  let colH = colA;
 
   // // Use to compare dates with nonProcessing days and return the next (or previous) working day, depending on the direction specified. Populates a given table column with bankHols
   // function compareDates(dates1, dates2, direction, column) {
@@ -122,19 +130,31 @@ export default function displayProcessingDays(year) {
   // console.log(`Non processing days: ${nonProcessingDays}`);
   // console.log(`Display processing days: ${nonProcessingDays[3]}`)
   // processingDays.append(header, table);
-  let processingDaysObj = [];
+
+  // Create processingDays results object to be passed into state
+  let processingDays = [];
+  const columns = [
+    { name: "colA", displayDates: colA.displayDates, JSDates: colA.JSDates },
+    { name: "colB", displayDates: colB.displayDates, JSDates: colB.JSDates },
+    { name: "colC", displayDates: colC.displayDates, JSDates: colC.JSDates },
+    { name: "colD", displayDates: colD.displayDates, JSDates: colD.JSDates },
+    { name: "colE", displayDates: colE.displayDates, JSDates: colE.JSDates },
+    { name: "colF", displayDates: colF.displayDates, JSDates: colF.JSDates },
+    { name: "colG", displayDates: colG.displayDates, JSDates: colG.JSDates },
+    { name: "colH", displayDates: colH.displayDates, JSDates: colH.JSDates },
+  ];
+
   for (let i = 0; i < 24; i++) {
-    processingDaysObj.push({
-        colA: colA[i],
-        // colB: colB[i],
-        // colC: colC[i],
-        // colD: colD[i],
-        // colE: colE[i],
-        // colF: colF[i],
-        // colG: colG[i],
-        // colH: colH[i],
+    let day = {};
+    columns.forEach((column) => {
+      day[column.name] = {
+        displayDate: column.displayDates[i],
+        JSdate: column.JSDates[i],
+      };
     });
-}
-  console.log("processingDaysObj:", processingDaysObj);
-  return processingDaysObj;
+    processingDays.push(day);
+  }
+
+  console.log("processingDays:", processingDays);
+  return processingDays;
 }
