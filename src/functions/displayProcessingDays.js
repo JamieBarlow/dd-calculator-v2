@@ -84,15 +84,6 @@ export default function displayProcessingDays(year, nonProcessingDays) {
     return resultDates;
   }
 
-  // Todo: populate cols B-H with actual values
-  let colB = colA;
-  let colC = colA;
-  // let colD = colA;
-  // let colE = colA;
-  // let colF = colA;
-  let colG = colA;
-  let colH = colA;
-
   // // Column F dates
   let colF = {};
   function getColF() {
@@ -119,35 +110,43 @@ export default function displayProcessingDays(year, nonProcessingDays) {
   }
   getColD();
 
-  // // Column C dates
-  // let colC = shiftDates(colD, backwards);
-  // compareDates(colC, nonProcessingDays, backwards, 2);
-  // colC = compareDates(colC, nonProcessingDays, backwards, 2);
+  let colC = {};
+  function getColC() {
+    let shiftedBack = shiftDates(colD.JSDates, backwards);
+    colC.JSDates = compareDates(shiftedBack, nonProcessingJS, backwards);
+    colC.displayDates = colC.JSDates.map((date) => convertJSDateToDMY(date));
+  }
+  getColC();
 
   // // Column B dates (shifting back 3 days)
-  // let colB = shiftDates(colC, backwards);
-  // colB = compareDates(colB, nonProcessingDays, backwards, 1);
-  // colB = shiftDates(colB, backwards); // Shifting back a 2nd day
-  // colB = compareDates(colB, nonProcessingDays, backwards, 1);
-  // colB = shiftDates(colB, backwards); // Shifting back a 3rd day
-  // colB = compareDates(colB, nonProcessingDays, backwards, 1);
+  let colB = {};
+  function getColB() {
+    let shiftedBack = shiftDates(colC.JSDates, backwards);
+    let comparedResults = compareDates(shiftedBack, nonProcessingJS, backwards);
+    comparedResults = shiftDates(comparedResults, backwards); // Shifting back a 2nd day
+    comparedResults = compareDates(comparedResults, nonProcessingJS, backwards);
+    comparedResults = shiftDates(comparedResults, backwards); // Shifting back a 3rd day
+    colB.JSDates = compareDates(comparedResults, nonProcessingJS, backwards);
+    colB.displayDates = colB.JSDates.map((date) => convertJSDateToDMY(date));
+  }
+  getColB();
+  console.log(colB);
 
-  // // Column G dates
-  // let colG = shiftDates(colF, forwards);
-  // compareDates(colG, nonProcessingDays, forwards, 6);
-  // colG = compareDates(colG, nonProcessingDays, forwards, 6);
+  let colG = {};
+  function getColG() {
+    let shiftedForwards = shiftDates(colF.JSDates, forwards);
+    colG.JSDates = compareDates(shiftedForwards, nonProcessingJS, forwards);
+    colG.displayDates = colG.JSDates.map((date) => convertJSDateToDMY(date));
+  }
+  getColG();
 
-  // // Column H dates
-  // let colH = shiftDates(colG, forwards);
-  // compareDates(colH, nonProcessingDays, forwards, 7);
-  // colH = compareDates(colH, nonProcessingDays, forwards, 7);
-
-  // console.log("COLUMN DATA:", colA, colB, colC, colD, colE, colF, colG, colH);
-
-  // console.log(`Claim dates: ${claimDates}`);
-  // console.log(`Non processing days: ${nonProcessingDays}`);
-  // console.log(`Display processing days: ${nonProcessingDays[3]}`)
-  // processingDays.append(header, table);
+  let colH = {};
+  function getColH() {
+    let shiftedForwards = shiftDates(colG.JSDates, forwards);
+    colH.JSDates = compareDates(shiftedForwards, nonProcessingJS, forwards);
+    colH.displayDates = colH.JSDates.map((date) => convertJSDateToDMY(date));
+  }
+  getColH();
 
   // Create processingDays results object to be passed into state
   let processingDays = [];
