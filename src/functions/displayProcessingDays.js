@@ -9,31 +9,39 @@ const {
 
 // Display processing dates
 export default function displayProcessingDays(year, nonProcessingDays) {
+  let nonProcessingJS = nonProcessingDays.map((day) => day.JSDate);
+  let claimDates;
+
   // Column A dates - capture 5th or 19th of month as claim dates
-  let month = 1;
-  let displayDates = [];
-  for (let i = 0; i < 24; i++) {
-    if (i % 2 === 0) {
-      let claimDate = `05/${month.toLocaleString("en-US", {
-        minimumIntegerDigits: 2,
-      })}/${year}`;
-      displayDates.push(claimDate);
-    } else if (i % 2 === 1) {
-      let claimDate = `19/${month.toLocaleString("en-US", {
-        minimumIntegerDigits: 2,
-      })}/${year}`;
-      displayDates.push(claimDate);
-      month++;
+  let colA = {};
+  function getColA() {
+    let month = 1;
+    let displayDates = [];
+    for (let i = 0; i < 24; i++) {
+      if (i % 2 === 0) {
+        let claimDate = `05/${month.toLocaleString("en-US", {
+          minimumIntegerDigits: 2,
+        })}/${year}`;
+        displayDates.push(claimDate);
+      } else if (i % 2 === 1) {
+        let claimDate = `19/${month.toLocaleString("en-US", {
+          minimumIntegerDigits: 2,
+        })}/${year}`;
+        displayDates.push(claimDate);
+        month++;
+      }
     }
+    claimDates = displayDates.map((date) => convertUKDateToObject(date));
+
+    colA = {
+      displayDates,
+      JSDates: claimDates,
+    };
   }
-  const claimDates = displayDates.map((date) => convertUKDateToObject(date));
-  let colA = {
-    displayDates,
-    JSDates: claimDates,
-  };
+  getColA();
 
   // Use to compare dates with nonProcessing days and return the next (or previous) working day, depending on the direction specified. Populates a given table column with bankHols
-  function compareDates(dates1, dates2, direction, column) {
+  function compareDates(dates1, dates2, direction) {
     let resultDates = [];
     let defaultDate = true;
     for (let i = 0; i < dates1.length; i++) {
@@ -80,7 +88,7 @@ export default function displayProcessingDays(year, nonProcessingDays) {
   let colB = colA;
   let colC = colA;
   let colD = colA;
-  let colE = colA;
+  // let colE = colA;
   // let colF = colA;
   let colG = colA;
   let colH = colA;
@@ -88,24 +96,19 @@ export default function displayProcessingDays(year, nonProcessingDays) {
   // // Column F dates
   let colF = {};
   function getColF() {
-    console.log("nonProcessingDays:");
-    console.log(nonProcessingDays);
-    let nonProcessingJS = nonProcessingDays.map((day) => day.JSDate);
-    console.log("nonProcessingJS:");
-    console.log(nonProcessingJS);
-    colF.JSDates = compareDates(claimDates, nonProcessingJS, forwards, 5);
-    console.log("colF.JSDates:");
-    console.log(colF.JSDates);
+    colF.JSDates = compareDates(claimDates, nonProcessingJS, forwards);
     colF.displayDates = colF.JSDates.map((date) => convertJSDateToDMY(date));
-    console.log("colF.displayDates:");
-    console.log(colF.displayDates);
   }
   getColF();
 
-  // // Column E dates
-  // let colE = shiftDates(claimDates, backwards); // Note we are shifting the original claim dates backwards, instead of passing in the modified column F dates
-  // compareDates(colE, nonProcessingDays, backwards, 4);
-  // colE = compareDates(colE, nonProcessingDays, backwards, 4);
+  // Column E dates
+  let colE = {};
+  function getColE() {
+    let shiftedBack = shiftDates(claimDates, backwards); // Note we are shifting the original claim dates backwards, instead of passing in the modified column F dates
+    colE.JSDates = compareDates(shiftedBack, nonProcessingJS, backwards);
+    colE.displayDates = colE.JSDates.map((date) => convertJSDateToDMY(date));
+  }
+  getColE();
 
   // // Column D dates
   // let colD = shiftDates(colE, backwards);
