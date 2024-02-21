@@ -87,7 +87,7 @@ export default function displayProcessingDays(year, nonProcessingDays) {
   // Todo: populate cols B-H with actual values
   let colB = colA;
   let colC = colA;
-  let colD = colA;
+  // let colD = colA;
   // let colE = colA;
   // let colF = colA;
   let colG = colA;
@@ -111,9 +111,13 @@ export default function displayProcessingDays(year, nonProcessingDays) {
   getColE();
 
   // // Column D dates
-  // let colD = shiftDates(colE, backwards);
-  // compareDates(colD, nonProcessingDays, backwards, 3);
-  // colD = compareDates(colD, nonProcessingDays, backwards, 3);
+  let colD = {};
+  function getColD() {
+    let shiftedBack = shiftDates(colE.JSDates, backwards);
+    colD.JSDates = compareDates(shiftedBack, nonProcessingJS, backwards);
+    colD.displayDates = colD.JSDates.map((date) => convertJSDateToDMY(date));
+  }
+  getColD();
 
   // // Column C dates
   // let colC = shiftDates(colD, backwards);
