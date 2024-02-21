@@ -1,5 +1,6 @@
 import { dateUtils } from "./dateUtils";
-const { namedDaysOfWeek, convertGovDateToObject, convertGovDateToDMY } = dateUtils;
+const { namedDaysOfWeek, convertGovDateToObject, convertGovDateToDMY } =
+  dateUtils;
 
 export default function getBankHols(year) {
   return fetch(`https://www.gov.uk/bank-holidays.json`)
@@ -38,10 +39,10 @@ export default function getBankHols(year) {
       let dates = nonProcessing.map((result) => result.date);
 
       // Get JS dates
-      let JSdates = [];
+      let JSDates = [];
       for (let date of dates) {
         let converted = convertGovDateToObject(date);
-        JSdates.push(converted);
+        JSDates.push(converted);
       }
 
       // Get display dates (DD/MM/YYYY)
@@ -50,7 +51,7 @@ export default function getBankHols(year) {
         let converted = convertGovDateToDMY(date);
         displayDates.push(converted);
       }
-      
+
       // Extract day of week from results
       const daysOfWeek = dates.map((result) => {
         let date = new Date(result);
@@ -68,7 +69,7 @@ export default function getBankHols(year) {
         // Returns array of objects
         let bankHols = dates.map((date, i) => ({
           displayDate: displayDates[i],
-          JSdate: JSdates[i], 
+          JSDate: JSDates[i],
           dayOfWeek: daysOfWeek[i],
           bankHolName: bankHolNames[i],
         }));

@@ -27,8 +27,8 @@ export default function getWeekends(year) {
 
   let results = dates.map((date, i) => ({
     displayDate: weekends[i],
-    JSdate: date,
-    dayOfWeek: weekendDays[i]
-  }))
+    JSDate: date,
+    dayOfWeek: weekendDays[i],
+  }));
   return results;
 }

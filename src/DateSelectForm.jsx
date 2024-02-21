@@ -8,7 +8,19 @@ import getWeekends from "./functions/getWeekends";
 import displayProcessingDays from "./functions/displayProcessingDays";
 
 export default function DateSelectForm() {
-  const { selectedYear, setSelectedYear, setCalculated, nonProcessingDays, setNonProcessingDays, setBankHols, weekends, setWeekends, processingDays, setProcessingDays } = useContext(AppContext);
+  const {
+    selectedYear,
+    setSelectedYear,
+    calculated,
+    setCalculated,
+    nonProcessingDays,
+    setNonProcessingDays,
+    setBankHols,
+    weekends,
+    setWeekends,
+    processingDays,
+    setProcessingDays,
+  } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
@@ -18,7 +30,7 @@ export default function DateSelectForm() {
     const bankHols = await getBankHols(selectedYear);
     setNonProcessingDays((prevNonProcessingDays) => [
       ...prevNonProcessingDays,
-      ...bankHols
+      ...bankHols,
     ]);
     setBankHols(bankHols);
     // Generate weekends and add to state
@@ -26,17 +38,22 @@ export default function DateSelectForm() {
     setWeekends(weekendDates);
     setNonProcessingDays((prevNonProcessingDays) => [
       ...prevNonProcessingDays,
-      ...weekendDates
+      ...weekendDates,
     ]);
-    // Generate processing days and add to state
-    const finalResults = displayProcessingDays(selectedYear);
-    setProcessingDays(finalResults);
-
     // Allow for results to display
     setCalculated(true);
   };
   useEffect(() => {
-    console.log(nonProcessingDays);
+    // Generate processing days and add to state
+    if (calculated === true) {
+      console.log("NON PROCESSING:");
+      console.log(nonProcessingDays);
+      const finalResults = displayProcessingDays(
+        selectedYear,
+        nonProcessingDays
+      );
+      setProcessingDays(finalResults);
+    }
   }, [nonProcessingDays]);
 
   return (

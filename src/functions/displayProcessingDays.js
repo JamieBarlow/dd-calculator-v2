@@ -1,9 +1,15 @@
 import { dateUtils } from "./dateUtils";
-const { convertUKDateToObject, convertJSDateToDMY } = dateUtils;
+const {
+  convertUKDateToObject,
+  convertJSDateToDMY,
+  forwards,
+  backwards,
+  shiftDates,
+} = dateUtils;
 
 // Display processing dates
-export default function displayProcessingDays(year) {
-  // Column A dates - capture 5th or 19th of month as display dates
+export default function displayProcessingDays(year, nonProcessingDays) {
+  // Column A dates - capture 5th or 19th of month as claim dates
   let month = 1;
   let displayDates = [];
   for (let i = 0; i < 24; i++) {
@@ -20,76 +26,81 @@ export default function displayProcessingDays(year) {
       month++;
     }
   }
-
-  // Convert DD/MM/YYYY dates to JS format
-  const JSDates = displayDates.map((date) => convertUKDateToObject(date));
+  const claimDates = displayDates.map((date) => convertUKDateToObject(date));
   let colA = {
     displayDates,
-    JSDates,
+    JSDates: claimDates,
   };
 
-  console.log("COL-A");
-  console.log(colA);
+  // Use to compare dates with nonProcessing days and return the next (or previous) working day, depending on the direction specified. Populates a given table column with bankHols
+  function compareDates(dates1, dates2, direction, column) {
+    let resultDates = [];
+    let defaultDate = true;
+    for (let i = 0; i < dates1.length; i++) {
+      let newDate = new Date(`${dates1[i]}`);
+      for (let j = 0; j < dates2.length; j++) {
+        // comparing first set of dates with nonprocessing days - if they match, the default date can't apply and the date must be shifted forwards or backwards for further comparison
+        if (newDate.getTime() === dates2[j].getTime()) {
+          defaultDate = false;
+          newDate.setDate(`${direction(newDate.getDate())}`);
+          newDate.setHours(0);
+          // 2nd comparison
+          for (let k = 0; k < dates2.length; k++) {
+            if (newDate.getTime() === dates2[k].getTime()) {
+              newDate.setDate(`${direction(newDate.getDate())}`);
+              // 3rd comparison
+              for (let l = 0; l < dates2.length; l++) {
+                if (newDate.getTime() === dates2[l].getTime()) {
+                  newDate.setDate(`${direction(newDate.getDate())}`);
+                  // 4th comparison (final)
+                  for (let m = 0; m < dates2.length; m++) {
+                    if (newDate.getTime() === dates2[m].getTime()) {
+                      newDate.setDate(`${direction(newDate.getDate())}`);
+                    }
+                  }
+                }
+              }
+            }
+          }
+          resultDates.push(newDate);
+        }
+      }
+      // Populate with default date (will apply if there is no clash between column dates and nonprocessing days)
+      if (defaultDate === true) {
+        resultDates.push(dates1[i]);
+      }
+      defaultDate = true;
+    }
+    console.log("COMPARING:");
+    console.log(resultDates);
+    return resultDates;
+  }
+
+  // Todo: populate cols B-H with actual values
   let colB = colA;
   let colC = colA;
   let colD = colA;
   let colE = colA;
-  let colF = colA;
+  // let colF = colA;
   let colG = colA;
   let colH = colA;
 
-  // // Use to compare dates with nonProcessing days and return the next (or previous) working day, depending on the direction specified. Populates a given table column with bankHols
-  // function compareDates(dates1, dates2, direction, column) {
-  //   let resultDates = [];
-  //   let defaultDate = true;
-  //   for (let i = 0; i < dates1.length; i++) {
-  //     let newDate = new Date(`${dates1[i]}`);
-  //     for (let j = 0; j < dates2.length; j++) {
-  //       // comparing first set of dates with nonprocessing days - if they match, the default date can't apply and the date must be shifted forwards or backwards for further comparison
-  //       if (newDate.getTime() === dates2[j].getTime()) {
-  //         defaultDate = false;
-  //         newDate.setDate(`${direction(newDate.getDate())}`);
-  //         newDate.setHours(0);
-  //         // 2nd comparison
-  //         for (let k = 0; k < dates2.length; k++) {
-  //           if (newDate.getTime() === dates2[k].getTime()) {
-  //             newDate.setDate(`${direction(newDate.getDate())}`);
-  //             // 3rd comparison
-  //             for (let l = 0; l < dates2.length; l++) {
-  //               if (newDate.getTime() === dates2[l].getTime()) {
-  //                 newDate.setDate(`${direction(newDate.getDate())}`);
-  //                 // 4th comparison (final)
-  //                 for (let m = 0; m < dates2.length; m++) {
-  //                   if (newDate.getTime() === dates2[m].getTime()) {
-  //                     newDate.setDate(`${direction(newDate.getDate())}`);
-  //                   }
-  //                 }
-  //               }
-  //             }
-  //           }
-  //         }
-  //         // Populate rows from 3rd row down, in the column given
-  //         table.rows[i + 2].cells[column].innerText =
-  //           convertJSDateToDMY(newDate);
-  //         resultDates.push(newDate);
-  //       }
-  //     }
-  //     // Populate with default date (will apply if there is no clash between column dates and nonprocessing days)
-  //     if (defaultDate === true) {
-  //       table.rows[i + 2].cells[column].innerText = convertJSDateToDMY(
-  //         dates1[i]
-  //       );
-  //       resultDates.push(dates1[i]);
-  //     }
-  //     defaultDate = true;
-  //   }
-  //   return resultDates;
-  // }
-
   // // Column F dates
-  // let colF = claimDates;
-  // compareDates(colF, nonProcessingDays, forwards, 5);
-  // colF = compareDates(claimDates, nonProcessingDays, forwards, 5);
+  let colF = {};
+  function getColF() {
+    console.log("nonProcessingDays:");
+    console.log(nonProcessingDays);
+    let nonProcessingJS = nonProcessingDays.map((day) => day.JSDate);
+    console.log("nonProcessingJS:");
+    console.log(nonProcessingJS);
+    colF.JSDates = compareDates(claimDates, nonProcessingJS, forwards, 5);
+    console.log("colF.JSDates:");
+    console.log(colF.JSDates);
+    colF.displayDates = colF.JSDates.map((date) => convertJSDateToDMY(date));
+    console.log("colF.displayDates:");
+    console.log(colF.displayDates);
+  }
+  getColF();
 
   // // Column E dates
   // let colE = shiftDates(claimDates, backwards); // Note we are shifting the original claim dates backwards, instead of passing in the modified column F dates
@@ -149,7 +160,7 @@ export default function displayProcessingDays(year) {
     columns.forEach((column) => {
       day[column.name] = {
         displayDate: column.displayDates[i],
-        JSdate: column.JSDates[i],
+        JSDate: column.JSDates[i],
       };
     });
     processingDays.push(day);
