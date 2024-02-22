@@ -3,6 +3,7 @@ import AppContext from "./context/AppContext";
 import { Text, Button } from "@cruk/cruk-react-components";
 import { dateUtils } from "./functions/dateUtils";
 const { convertJSDateToDMY } = dateUtils;
+import { v4 as uuidv4 } from "uuid";
 
 // Custom React datepicker with UK localisation
 import DatePicker from "react-datepicker";
@@ -39,6 +40,7 @@ export default function CompanyHolsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const date = {
+      id: uuidv4(),
       displayDate: convertJSDateToDMY(startDate),
       JSDate: startDate,
     };
