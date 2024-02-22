@@ -20,12 +20,14 @@ export default function YearSelectForm() {
     setWeekends,
     processingDays,
     setProcessingDays,
+    setSubmittedYear,
   } = useContext(AppContext);
   const handleYearSelect = (e) => {
     setSelectedYear(e.target.value);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmittedYear(selectedYear);
     // Generate bank hols and add to state
     const bankHols = await getBankHols(selectedYear);
     setNonProcessingDays((prevNonProcessingDays) => [

@@ -14,12 +14,8 @@ const CompDatesBox = styled(Box)`
 `;
 
 export default function DisplayCompanyHols() {
-  const {
-    companyHols,
-    setCompanyHols,
-    nonProcessingDays,
-    setNonProcessingDays,
-  } = useContext(AppContext);
+  const { companyHols, setCompanyHols, setNonProcessingDays } =
+    useContext(AppContext);
   const handleClick = (id) => {
     console.log("hello");
     setNonProcessingDays((oldValues) => {

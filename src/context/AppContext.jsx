@@ -9,6 +9,7 @@ export const ContextProvider = ({ children }) => {
   const [weekends, setWeekends] = useState([]);
   const [processingDays, setProcessingDays] = useState([]);
   const [selectedYear, setSelectedYear] = useState("Select a year");
+  const [submittedYear, setSubmittedYear] = useState("");
   const [calculated, setCalculated] = useState(false);
   const [companyHolsAdded, setCompanyHolsAdded] = useState(false);
   return (
@@ -30,6 +31,8 @@ export const ContextProvider = ({ children }) => {
         setCompanyHolsAdded,
         companyHols,
         setCompanyHols,
+        submittedYear,
+        setSubmittedYear,
       }}
     >
       {children}

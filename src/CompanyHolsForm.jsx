@@ -19,17 +19,8 @@ import { FaPlus } from "react-icons/fa";
 
 export default function CompanyHolsForm() {
   const {
-    selectedYear,
-    setSelectedYear,
-    calculated,
-    setCalculated,
     nonProcessingDays,
     setNonProcessingDays,
-    setBankHols,
-    weekends,
-    setWeekends,
-    processingDays,
-    setProcessingDays,
     companyHolsAdded,
     setCompanyHolsAdded,
     companyHols,

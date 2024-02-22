@@ -4,12 +4,12 @@ import { Heading } from "@cruk/cruk-react-components";
 import Table from "react-bootstrap/Table";
 
 export default function DisplayWeekends() {
-  const { selectedYear, weekends } = useContext(AppContext);
+  const { submittedYear, weekends } = useContext(AppContext);
   return (
     <>
-      <Heading>{`Weekend dates for ${selectedYear} (including late ${
-        selectedYear - 1
-      } and early ${Number(selectedYear) + 1})`}</Heading>
+      <Heading>{`Weekend dates for ${submittedYear} (including late ${
+        submittedYear - 1
+      } and early ${Number(submittedYear) + 1})`}</Heading>
       <Table className="table-success" striped bordered hover>
         <thead className="table-dark">
           <tr>

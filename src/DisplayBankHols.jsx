@@ -4,11 +4,11 @@ import { Heading } from "@cruk/cruk-react-components";
 import Table from "react-bootstrap/Table";
 
 export default function DisplayBankHols() {
-  const { bankHols, selectedYear } = useContext(AppContext);
+  const { bankHols, submittedYear } = useContext(AppContext);
   return (
     <>
-      <Heading>{`Bank holiday dates for ${selectedYear} (and late ${
-        selectedYear - 1
+      <Heading>{`Bank holiday dates for ${submittedYear} (and late ${
+        submittedYear - 1
       })`}</Heading>
       <Table className="table-primary" striped bordered hover>
         <thead className="table-dark">
