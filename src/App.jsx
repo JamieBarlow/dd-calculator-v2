@@ -17,23 +17,15 @@ import {
   Footer,
   Step,
 } from "@cruk/cruk-react-components";
-import DateSelectForm from "./DateSelectForm";
-import ResultsDisplay from "./ResultsDisplay";
+import CompanyHolsForm from "./CompanyHolsForm";
+import YearSelectForm from "./YearSelectForm";
+import DisplayResults from "./DisplayResults";
 
 // Context API
 import { ContextProvider } from "./context/AppContext";
 
-// Custom React datepicker with UK localisation
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import enGB from "date-fns/locale/en-GB";
-registerLocale("enGB", enGB);
-setDefaultLocale("enGB");
-
 // Icons
-import { RxCalendar } from "react-icons/rx";
-import { FaPlus, FaRegQuestionCircle } from "react-icons/fa";
+import { FaRegQuestionCircle } from "react-icons/fa";
 
 // Custom styling with styled-components
 import styled from "styled-components";
@@ -107,31 +99,7 @@ function App() {
             Click 'Add' to exclude them from the list of potential working days.
           </Text>
           <Box marginHorizontal="xl" backgroundColor="primary">
-            <form id="extra-dates__form">
-              <Text textSize="l" textColor="textOnPrimary">
-                <label htmlFor="company-dates">
-                  Please enter in DD/MM/YYYY format and click 'Add' after each
-                  entry:
-                </label>
-              </Text>
-              <DatePicker
-                placeholderText="    Click to select a date"
-                showIcon
-                id="company-dates"
-                pattern="([0-9]+(/[0-9]+)+)"
-                icon={<RxCalendar />}
-                required
-              />
-              <Button
-                id="addCompanyDatesBtn"
-                type="submit"
-                style={{ margin: 10 }}
-                size="m"
-              >
-                Add
-                <FaPlus />
-              </Button>
-            </form>
+            <CompanyHolsForm />
           </Box>
           <LeftBadge backgroundColor="tertiary" borderColor="primary">
             2
@@ -140,10 +108,10 @@ function App() {
             Choose the year you want to calculate processing dates for.
           </Text>
           <Box marginHorizontal="xl" margin="s" backgroundColor="primary">
-            <DateSelectForm />
+            <YearSelectForm />
           </Box>
         </Box>
-        <ResultsDisplay />
+        <DisplayResults />
         <Footer />
       </ContextProvider>
     </>

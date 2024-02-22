@@ -7,7 +7,7 @@ import getBankHols from "./functions/getBankHols";
 import getWeekends from "./functions/getWeekends";
 import displayProcessingDays from "./functions/displayProcessingDays";
 
-export default function DateSelectForm() {
+export default function YearSelectForm() {
   const {
     selectedYear,
     setSelectedYear,
