@@ -111,7 +111,9 @@ function App() {
             <YearSelectForm />
           </Box>
         </Box>
-        <DisplayResults />
+        <Box marginVertical="s" marginHorizontal="l">
+          <DisplayResults />
+        </Box>
         <Footer />
       </ContextProvider>
     </>
