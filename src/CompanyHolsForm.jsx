@@ -53,7 +53,7 @@ export default function CompanyHolsForm() {
 
   return (
     <>
-      <Popup show={showPopup} close={hideToast} />
+      <Popup show={showPopup} close={hideToast} message="Date added" />
       <form id="extra-dates__form" onSubmit={handleSubmit}>
         <Text textSize="l" textColor="textOnPrimary">
           <label htmlFor="company-dates">

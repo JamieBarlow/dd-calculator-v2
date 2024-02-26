@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AppContext from "./context/AppContext";
 import { Heading, Text, Button, Box } from "@cruk/cruk-react-components";
 import { FaMinus } from "react-icons/fa";
+import Popup from "./Popup";
 
 import styled from "styled-components";
 const InlineText = styled(Text)`
@@ -16,6 +17,9 @@ const CompDatesBox = styled(Box)`
 export default function DisplayCompanyHols() {
   const { companyHols, setCompanyHols, setNonProcessingDays } =
     useContext(AppContext);
+  const [showPopup, setShowPopup] = useState(false);
+  const showToast = () => setShowPopup(true);
+  const hideToast = () => setShowPopup(false);
   const handleClick = (id) => {
     console.log("hello");
     setNonProcessingDays((oldValues) => {
@@ -24,6 +28,7 @@ export default function DisplayCompanyHols() {
     setCompanyHols((oldValues) => {
       return oldValues.filter((item) => item.id !== id);
     });
+    showToast();
   };
   return (
     <>
@@ -48,6 +53,7 @@ export default function DisplayCompanyHols() {
           );
         })}
       </Box>
+      <Popup show={showPopup} close={hideToast} message="Date removed" />
     </>
   );
 }
