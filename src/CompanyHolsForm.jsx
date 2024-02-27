@@ -69,7 +69,7 @@ export default function CompanyHolsForm() {
             showIcon
             id="company-dates"
             pattern="([0-9]+(/[0-9]+)+)"
-            icon={<RxCalendar style={{ color: "white" }} />}
+            icon={<RxCalendar />}
             required
             locale="en-GB"
           />
