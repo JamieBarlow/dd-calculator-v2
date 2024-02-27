@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const AppContext = createContext();
 
@@ -12,6 +13,18 @@ export const ContextProvider = ({ children }) => {
   const [submittedYear, setSubmittedYear] = useState("");
   const [calculated, setCalculated] = useState(false);
   const [companyHolsAdded, setCompanyHolsAdded] = useState(false);
+  const [toasts, setToasts] = useState([]);
+  const addToast = (message) => {
+    const id = uuidv4();
+    setToasts([...toasts, { id, message }]);
+    setTimeout(() => {
+      removeToast(id);
+    }, 3000);
+  };
+  const removeToast = (idToRemove) => {
+    setToasts((prevToasts) => prevToasts.filter(({ id }) => id !== idToRemove));
+    console.log(toasts);
+  };
   return (
     <AppContext.Provider
       value={{
@@ -33,6 +46,9 @@ export const ContextProvider = ({ children }) => {
         setCompanyHols,
         submittedYear,
         setSubmittedYear,
+        toasts,
+        addToast,
+        removeToast,
       }}
     >
       {children}

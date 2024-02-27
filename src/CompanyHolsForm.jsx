@@ -4,7 +4,6 @@ import { Text, Button, Box } from "@cruk/cruk-react-components";
 import { dateUtils } from "./functions/dateUtils";
 const { convertJSDateToDMY } = dateUtils;
 import { v4 as uuidv4 } from "uuid";
-import Popup from "./Popup";
 
 // Custom React datepicker with UK localisation
 import DatePicker from "react-datepicker";
@@ -26,11 +25,9 @@ export default function CompanyHolsForm() {
     setCompanyHolsAdded,
     companyHols,
     setCompanyHols,
+    addToast,
   } = useContext(AppContext);
   const [startDate, setStartDate] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const showToast = () => setShowPopup(true);
-  const hideToast = () => setShowPopup(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +39,7 @@ export default function CompanyHolsForm() {
     setNonProcessingDays((prev) => [...prev, date]);
     setCompanyHols((prev) => [...prev, date]);
     setCompanyHolsAdded(true);
-    showToast();
+    addToast("Date added");
   };
   useEffect(() => {
     if (companyHolsAdded === true) {
@@ -53,7 +50,6 @@ export default function CompanyHolsForm() {
 
   return (
     <>
-      <Popup show={showPopup} close={hideToast} message="Date added" />
       <form id="extra-dates__form" onSubmit={handleSubmit}>
         <Text textSize="l" textColor="textOnPrimary">
           <label htmlFor="company-dates">

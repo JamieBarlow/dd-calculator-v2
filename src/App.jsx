@@ -20,6 +20,7 @@ import {
 import CompanyHolsForm from "./CompanyHolsForm";
 import YearSelectForm from "./YearSelectForm";
 import DisplayResults from "./DisplayResults";
+import Toasts from "./Toasts";
 
 // Context API
 import { ContextProvider } from "./context/AppContext";
@@ -114,6 +115,7 @@ function App() {
         <Box marginVertical="s" marginHorizontal="l">
           <DisplayResults />
         </Box>
+        <Toasts />
         <Footer />
       </ContextProvider>
     </>
