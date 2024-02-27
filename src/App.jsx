@@ -4,7 +4,6 @@ import "./App.css";
 
 // Components
 import {
-  Button,
   Header,
   Heading,
   Text,
@@ -12,10 +11,7 @@ import {
   Collapse,
   InfoBox,
   Box,
-  Carousel,
-  Pagination,
   Footer,
-  Step,
 } from "@cruk/cruk-react-components";
 import CompanyHolsForm from "./CompanyHolsForm";
 import YearSelectForm from "./YearSelectForm";
@@ -30,9 +26,6 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 
 // Custom styling with styled-components
 import styled from "styled-components";
-const InlineText = styled(Text)`
-  display: inline;
-`;
 const LeftBadge = styled(Badge)`
   float: left;
   margin-right: 1em;
@@ -43,13 +36,12 @@ function App() {
     <>
       <ContextProvider>
         <Header
-          siteSlogan="Direct Debits"
+          // siteSlogan="Supporter Income"
           fullWidth
           logoAltText="Click to refresh app"
           logoLinkTitle="Click to refresh app"
           logoLinkUrl="https://dd-calculator.web.app/"
         >
-          <Button>Refresh</Button>
         </Header>
         <Box marginVertical="s" marginHorizontal="l">
           <Heading h1 textAlign="center">
@@ -67,7 +59,7 @@ function App() {
           <InfoBox
             backgroundColor="#E40173"
             descriptionTextColor="#fff"
-            icon={<FaRegQuestionCircle />}
+            icon={<FaRegQuestionCircle color="#fff" />}
             size="1.5em"
             titleTextColor="#fff"
             marginHorizontal="xl"
@@ -80,9 +72,11 @@ function App() {
             >
               <Box>
                 <Text textColor="white">
+                  This app automatically generates bank holidays and weekends for a given year, but extra holidays/office closure dates will vary year on year and therefore need to be added manually.
+                </Text>
+                <Text textColor="white">
                   Holiday/office closure dates from the previous year may affect
-                  calculations for the start of the current year, so it is
-                  important to include these as well.
+                  calculations for the start of the current year, which is why it is important to include these as well.
                 </Text>
                 <Text textColor="white">
                   For example, if you are calculating processing dates for 2024,
@@ -90,7 +84,7 @@ function App() {
                   and 2024.
                 </Text>
                 <Text textColor="white">
-                  You do not need to add national bank holidays, these are
+                  You do not need to add any national bank holidays or weekends, these are
                   accounted for.
                 </Text>
               </Box>

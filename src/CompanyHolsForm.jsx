@@ -39,14 +39,14 @@ export default function CompanyHolsForm() {
     setNonProcessingDays((prev) => [...prev, date]);
     setCompanyHols((prev) => [...prev, date]);
     setCompanyHolsAdded(true);
-    addToast("Date added");
+    addToast("Date added to company hols");
   };
   useEffect(() => {
     if (companyHolsAdded === true) {
       console.log(nonProcessingDays);
       console.log(companyHols);
     }
-  }, [nonProcessingDays]);
+  }, [nonProcessingDays, companyHols, companyHolsAdded]);
 
   return (
     <>
