@@ -50,20 +50,20 @@ export default function displayProcessingDays(year, nonProcessingDays) {
         // comparing first set of dates with nonprocessing days - if they match, the default date can't apply and the date must be shifted forwards or backwards for further comparison
         if (newDate.getTime() === dates2[j].getTime()) {
           defaultDate = false;
-          newDate.setDate(`${direction(newDate.getDate())}`);
+          newDate = direction(newDate);
           newDate.setHours(0);
           // 2nd comparison
           for (let k = 0; k < dates2.length; k++) {
             if (newDate.getTime() === dates2[k].getTime()) {
-              newDate.setDate(`${direction(newDate.getDate())}`);
+              newDate = direction(newDate);
               // 3rd comparison
               for (let l = 0; l < dates2.length; l++) {
                 if (newDate.getTime() === dates2[l].getTime()) {
-                  newDate.setDate(`${direction(newDate.getDate())}`);
+                  newDate = direction(newDate);
                   // 4th comparison (final)
                   for (let m = 0; m < dates2.length; m++) {
                     if (newDate.getTime() === dates2[m].getTime()) {
-                      newDate.setDate(`${direction(newDate.getDate())}`);
+                      newDate = direction(newDate);
                     }
                   }
                 }

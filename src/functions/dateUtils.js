@@ -62,22 +62,22 @@ const convertJSDateToDMY = (date) => {
 };
 
 // Pass the below functions as the 'direction' argument to other functions in order to push days either forwards or backwards;
-function forwards(a) {
-  a++;
-  return a;
+function forwards(date) {
+  date.setDate(date.getDate() + 1);
+  return date;
 }
-function backwards(a) {
-  a--;
-  return a;
+function backwards(date) {
+  date.setDate(date.getDate() - 1);
+  return date;
 }
 
 // Shift dates back or forward by 1 day, using 'forwards' or 'backwards' utility functions as the direction argument (use this before comparing with non-processing days)
 function shiftDates(dates, direction) {
   let newDates = [];
-  // Shift dates back by 1
+  // Shift dates back or forward by 1
   for (let i = 0; i < dates.length; i++) {
     let newDate = new Date(dates[i]);
-    newDate.setDate(`${direction(newDate.getDate())}`);
+    newDate = direction(newDate);
     newDate.setHours(0);
     newDates.push(newDate);
   }
