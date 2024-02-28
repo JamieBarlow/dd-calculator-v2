@@ -23,7 +23,7 @@ export const ContextProvider = ({ children }) => {
   };
   const removeToast = (idToRemove) => {
     setToasts((prevToasts) => prevToasts.filter(({ id }) => id !== idToRemove));
-    console.log(toasts);
+    // console.log(toasts);
   };
   return (
     <AppContext.Provider

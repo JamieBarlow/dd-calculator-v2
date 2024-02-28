@@ -79,8 +79,8 @@ export default function displayProcessingDays(year, nonProcessingDays) {
       }
       defaultDate = true;
     }
-    console.log("COMPARING:");
-    console.log(resultDates);
+    // console.log("COMPARING:");
+    // console.log(resultDates);
     return resultDates;
   }
 
@@ -130,7 +130,7 @@ export default function displayProcessingDays(year, nonProcessingDays) {
     colB.displayDates = colB.JSDates.map((date) => convertJSDateToDMY(date));
   }
   getColB();
-  console.log(colB);
+  // console.log(colB);
 
   let colG = {};
   function getColG() {
@@ -172,6 +172,6 @@ export default function displayProcessingDays(year, nonProcessingDays) {
     processingDays.push(day);
   }
 
-  console.log("processingDays:", processingDays);
+  // console.log("processingDays:", processingDays);
   return processingDays;
 }

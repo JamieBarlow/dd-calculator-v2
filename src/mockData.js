@@ -983,6 +983,6 @@ const year2023 = {
   ],
 };
 
-console.log("year 2022 mock data:", year2022);
+// console.log("year 2022 mock data:", year2022);
 
 export { year2020, year2021, year2022, year2023, nonProcessingDays };

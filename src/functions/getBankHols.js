@@ -7,7 +7,7 @@ export default function getBankHols(year) {
     .then(
       (res) => {
         if (res.ok) {
-          console.log("RESOLVED!", res);
+          // console.log("RESOLVED!", res);
           return res.json();
         }
         throw new Error("request failed!");
@@ -73,10 +73,10 @@ export default function getBankHols(year) {
           dayOfWeek: daysOfWeek[i],
           bankHolName: bankHolNames[i],
         }));
-        console.log("All data from API call:", apiResults);
-        console.log("Bank hol dates:", dates);
-        console.log("Bank hol days of week:", daysOfWeek);
-        console.log("Bank hol names:", bankHolNames);
+        // console.log("All data from API call:", apiResults);
+        // console.log("Bank hol dates:", dates);
+        // console.log("Bank hol days of week:", daysOfWeek);
+        // console.log("Bank hol names:", bankHolNames);
         // nonProcessingDays.forEach((date) => {
         //   const newDate = convertJSDateToDMY(date);
         //   console.log(newDate);

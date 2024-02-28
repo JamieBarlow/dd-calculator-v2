@@ -52,8 +52,8 @@ export default function YearSelectForm() {
   useEffect(() => {
     // Generate processing days and add to state
     if (calculated === true) {
-      console.log("NON PROCESSING:");
-      console.log(nonProcessingDays);
+      // console.log("NON PROCESSING:");
+      // console.log(nonProcessingDays);
       const finalResults = displayProcessingDays(
         selectedYear,
         nonProcessingDays

@@ -43,8 +43,8 @@ export default function CompanyHolsForm() {
   };
   useEffect(() => {
     if (companyHolsAdded === true) {
-      console.log(nonProcessingDays);
-      console.log(companyHols);
+      // console.log(nonProcessingDays);
+      // console.log(companyHols);
     }
   }, [nonProcessingDays, companyHols, companyHolsAdded]);
 
