@@ -54,6 +54,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+input,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: black;
+  -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
+}
+
+.datePicker {
+  text-align: center;
+}
+
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

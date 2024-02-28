@@ -58,6 +58,7 @@ export default function CompanyHolsForm() {
         </Text>
         <Box marginLeft="l" style={{ display: "flex", alignItems: "center" }}>
           <DatePicker
+            className="datePicker"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             peekNextMonth

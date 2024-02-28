@@ -40,9 +40,8 @@ function App() {
           fullWidth
           logoAltText="Click to refresh app"
           logoLinkTitle="Click to refresh app"
-          logoLinkUrl="https://dd-calculator.web.app/"
-        >
-        </Header>
+          logoLinkUrl="dd-calculator.netlify.app"
+        ></Header>
         <Box marginVertical="s" marginHorizontal="l">
           <Heading h1 textAlign="center">
             Direct Debit Processing Calendar
@@ -72,11 +71,14 @@ function App() {
             >
               <Box>
                 <Text textColor="white">
-                  This app automatically generates bank holidays and weekends for a given year, but extra holidays/office closure dates will vary year on year and therefore need to be added manually.
+                  This app automatically generates bank holidays and weekends
+                  for a given year, but extra holidays/office closure dates will
+                  vary year on year and therefore need to be added manually.
                 </Text>
                 <Text textColor="white">
                   Holiday/office closure dates from the previous year may affect
-                  calculations for the start of the current year, which is why it is important to include these as well.
+                  calculations for the start of the current year, which is why
+                  it is important to include these as well.
                 </Text>
                 <Text textColor="white">
                   For example, if you are calculating processing dates for 2024,
@@ -84,8 +86,8 @@ function App() {
                   and 2024.
                 </Text>
                 <Text textColor="white">
-                  You do not need to add any national bank holidays or weekends, these are
-                  accounted for.
+                  You do not need to add any national bank holidays or weekends,
+                  these are accounted for.
                 </Text>
               </Box>
             </Collapse>
