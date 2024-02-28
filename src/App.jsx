@@ -40,7 +40,7 @@ function App() {
           fullWidth
           logoAltText="Click to refresh app"
           logoLinkTitle="Click to refresh app"
-          logoLinkUrl="dd-calculator.netlify.app"
+          logoLinkUrl="http://dd-calculator.netlify.app"
         ></Header>
         <Box marginVertical="s" marginHorizontal="l">
           <Heading h1 textAlign="center">
