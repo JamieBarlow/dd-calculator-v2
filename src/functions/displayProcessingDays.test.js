@@ -1,5 +1,7 @@
 import displayProcessingDays from "./displayProcessingDays";
 import { describe, expect, expectTypeOf, it, test } from "vitest";
+import { dateUtils } from "./dateUtils";
+const { testUKDateFormat } = dateUtils;
 
 describe("displayProcessingDays", () => {
   const year = 2020;
@@ -100,6 +102,7 @@ describe("displayProcessingDays", () => {
         expect(item[key]).toHaveProperty("JSDate");
         expect(item[key]).toHaveProperty("displayDate");
         expectTypeOf(item[key].displayDate).toBeString();
+        expect(() => testUKDateFormat(item[key].displayDate)).not.toThrow();
         expect(item[key].JSDate).toBeInstanceOf(Date);
       });
     });
