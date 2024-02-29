@@ -1,28 +1,21 @@
-import getBankHols from "./getBankHols";
+import getWeekends from "./getWeekends";
+import { describe, expect, expectTypeOf, it, test } from "vitest";
 import { dateUtils } from "./dateUtils";
 const { testUKDateFormat } = dateUtils;
 
-import { describe, expect, expectTypeOf, it } from "vitest";
-
-describe("#getBankHols", async () => {
-  const year = 2020;
-  const results = await getBankHols(year);
-  it("should return something from a fetch call to the Gov bank hols API, and not return an error", () => {
-    expect(results).toBeTruthy();
-    expect(() => getBankHols(year)).not.toThrow();
-  });
+describe("getWeekends", () => {
+  const results = getWeekends(2020);
   it("returns an array of objects", () => {
     expect(results).toBeInstanceOf(Array);
     results.forEach((item) => {
       expect(item).toBeInstanceOf(Object);
     });
   });
-  it("each object should have the properties 'displayDate', 'JSDate', 'dayOfWeek' and 'bankHolName'", () => {
+  it("each returned object should have a displayDate, JSDate and dayOfWeek property", () => {
     results.forEach((item) => {
       expect(item).toHaveProperty("displayDate");
       expect(item).toHaveProperty("JSDate");
       expect(item).toHaveProperty("dayOfWeek");
-      expect(item).toHaveProperty("bankHolName");
     });
   });
   it("type and format checking: displayDate should be in DD/MM/YYY format, JSDate should be in JS Date format, dayOfWeek should be a String, bankHolName should be a String", () => {
@@ -31,7 +24,6 @@ describe("#getBankHols", async () => {
       expect(() => testUKDateFormat(item.displayDate)).not.toThrow();
       expect(item.JSDate).toBeInstanceOf(Date);
       expectTypeOf(item.dayOfWeek).toBeString();
-      expectTypeOf(item.bankHolName).toBeString();
     });
   });
 });

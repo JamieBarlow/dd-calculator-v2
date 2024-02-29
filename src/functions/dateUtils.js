@@ -28,7 +28,7 @@ const testUKDateFormat = (date) => {
 const convertGovDateToDMY = (date) => {
   testGovDateFormat(date);
   date = `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)}`;
-  console.log(date);
+  // console.log(date);
   return date;
 };
 

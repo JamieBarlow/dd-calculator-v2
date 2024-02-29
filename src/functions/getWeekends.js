@@ -30,5 +30,6 @@ export default function getWeekends(year) {
     JSDate: date,
     dayOfWeek: weekendDays[i],
   }));
+  // console.log(results);
   return results;
 }
