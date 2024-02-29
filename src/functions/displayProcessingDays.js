@@ -9,6 +9,7 @@ const {
 
 // Display processing dates
 export default function displayProcessingDays(year, nonProcessingDays) {
+  // console.log(nonProcessingDays);
   let nonProcessingJS = nonProcessingDays.map((day) => day.JSDate);
   let claimDates;
 
