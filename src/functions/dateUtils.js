@@ -10,14 +10,15 @@ const namedDaysOfWeek = [
 
 // Tests date is in YYYY-MM-DD format
 const testGovDateFormat = (date) => {
-  const regex = new RegExp("([0-9]+(-[0-9]+)+)");
+  const regex = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
   if (!regex.test(date)) {
     throw Error("date to be converted must be in format YYYY-MM-DD");
   }
 };
 
+// Tests date is in DD/MM/YYYY format
 const testUKDateFormat = (date) => {
-  const regex = new RegExp("([0-9]+(/[0-9]+)+)");
+  const regex = new RegExp(/^\d{2}\/\d{2}\/\d{4}$/);
   if (!regex.test(date)) {
     throw Error("date to be converted must be in format DD/MM/YYYY");
   }
@@ -25,9 +26,9 @@ const testUKDateFormat = (date) => {
 
 // Converts dates returned from Gov API (format YYYY-MM-DD) to UK display format (DD/MM/YYYY)
 const convertGovDateToDMY = (date) => {
-  // console.log(date);
   testGovDateFormat(date);
   date = `${date.slice(8, 10)}/${date.slice(5, 7)}/${date.slice(0, 4)}`;
+  console.log(date);
   return date;
 };
 
