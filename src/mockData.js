@@ -139,7 +139,11 @@ const nonProcessingDays = [
   u2d("2024-01-14T00:00:00.000Z"),
 ];
 
-const year2020 = {
+const year2020 = [];
+
+const addedResults = [];
+
+const other2020 = {
   colA: [
     d(2020, 1, 5),
     d(2020, 1, 19),
@@ -349,6 +353,51 @@ const year2020 = {
     d(2020, 12, 23),
   ],
 };
+
+const columns = [
+  "colA",
+  "colB",
+  "colC",
+  "colD",
+  "colE",
+  "colF",
+  "colG",
+  "colH",
+];
+
+const convertJSDateToDMY = (date) => {
+  let day = date.getDate().toLocaleString("en-US", { minimumIntegerDigits: 2 });
+  let month = (date.getMonth() + 1).toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+  });
+  let year = date.getFullYear();
+  let ukDate = `${day}/${month}/${year}`;
+  return ukDate;
+};
+
+const convertUKDateToGov = (date) => {
+  let year = date.slice(6, 10);
+  let month = date.slice(3, 5);
+  let day = date.slice(0, 2);
+  let dateString = `d(${year}, ${month}, ${day})`;
+  return dateString;
+};
+
+for (let i = 0; i < 24; i++) {
+  const rowObject = {};
+  for (let j = 0; j < columns.length; j++) {
+    const JSDate = other2020[columns[j]][i];
+    const dateString = convertJSDateToDMY(JSDate);
+    const date = convertUKDateToGov(dateString);
+    rowObject[columns[j]] = {
+      JSDate: date,
+      displayDate: dateString,
+    };
+  }
+  addedResults.push(rowObject);
+}
+
+console.log(addedResults);
 
 const year2021 = {
   colA: [

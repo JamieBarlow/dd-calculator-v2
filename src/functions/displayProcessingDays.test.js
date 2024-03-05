@@ -2,6 +2,7 @@ import displayProcessingDays from "./displayProcessingDays";
 import { describe, expect, expectTypeOf, it, test } from "vitest";
 import { dateUtils } from "./dateUtils";
 const { testUKDateFormat } = dateUtils;
+import { year2020, year2021, year2022, year2023 } from "../mockData";
 
 describe("displayProcessingDays", () => {
   const year = 2020;
@@ -107,4 +108,5 @@ describe("displayProcessingDays", () => {
       });
     });
   });
+  it("should output results that match mock test results for 2020, 2021, 2022 and 2023", () => {});
 });
