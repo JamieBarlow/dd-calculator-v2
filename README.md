@@ -5,29 +5,25 @@
 
 ## Purpose / Background :bulb:
 
-- This is a v2 of a browser app that can be used to determine Direct Debit processing days for a selected year by accounting for weekends, bank holidays and other non-work days. The original can be found [here](https://github.com/JamieBarlow/weekend-bankhol). The UI has since been refactored to use React components (including CRUK's React component library, built using styled-components), and the app's functional layer now makes use of React state management instead of traditional JS DOM manipulation. To bridge the gap between the original UI elements and React, I made use of some of the original BootStrap components, rebuilt for React with the [React-BootStrap](https://react-bootstrap.netlify.app/) library.
+### Tech updates
+- This is v2 of a browser app that can be used to determine Direct Debit processing days for a selected year by accounting for weekends, bank holidays and other non-work days. The original can be found [here](https://github.com/JamieBarlow/weekend-bankhol). The UI has since been refactored to use [React](https://react.dev/) components (including [CRUK's React component library](https://www.npmjs.com/package/@cruk/cruk-react-components), built using styled-components), and the app's functional layer now makes use of React state management instead of traditional JS DOM manipulation. This has greatly improved the visual interface and provides a robust user experience, allowing for results to be updated dynamically without the need to refresh the browser.
+- To bridge the gap between the original app's UI elements and React, I made use of some of the original BootStrap components, rebuilt for React with the [React-BootStrap](https://react-bootstrap.netlify.app/) library.
+- Unit tests (originally Mocha/Chai) have been been rewritten in [Vitest](https://vitest.dev/), due to its integration with my React build tool of choice, [Vite](https://vitejs.dev/), and compatibility with the popular [Jest](https://jestjs.io/) API. Further advantages of this setup included clear assertions, integrated mocking, and visualisation of code coverage.
+- For a simplified deployment process and built-in continuous integration and continuous deployment(CI/CD), I deployed with [Netlify](https://www.netlify.com).
+### What the app does / the need to automate
 - Companies who operate a [Direct Debit scheme](https://www.directdebit.co.uk/) will rely on a processing calendar to determine their schedule for specific Direct Debit processes, both internally and in terms of DD claim submission to Bacs. This is to ensure that the agreed withdrawal date, between Service User (company, payee) and the customer, is met (as per the [Direct Debit guarantee](https://www.directdebit.co.uk/direct-debit-explained/direct-debit-guarantee/)). Processing dates for both Service User and bank are determined by working days, and therefore need to be adjusted to account for bank holidays, weekends, and office closures. Determining when these dates are can be a manual, complex and error-prone process, and so this app was created to meet a real challenge / need for automation.
-- There is a [3 day processing cycle](https://www.bacs.co.uk/services/bacs-schemes/getting-started/direct-debit/#:~:text=To%20collect%20Direct%20Debit%20payments,then%20transmitted%20to%20each%20institution.) operated by Bacs. This is accounted for in the app's calculations. The app also accounts for further company-specific internal processes that the claim submission is dependent upon - in this case the 'DD Dedupe Report', 'Claim Run' and 'ARUDD Reporting' are also included (see Features section below for further detail).
+- There is a [3 day processing cycle](https://www.bacs.co.uk/services/bacs-schemes/getting-started/direct-debit/#:~:text=To%20collect%20Direct%20Debit%20payments,then%20transmitted%20to%20each%20institution.) operated by Bacs. This is accounted for in the app's calculations. The app also accounts for further company-specific internal processes that the claim submission is dependent upon - in this case the 'DD Dedupe Report', 'Claim Run' and 'ARUDD Reporting' are also included.
 - Ultimately this app is designed to provide a reliable, consistent and maintainable means of determining Direct Debit processing days, mitigating error and risk. A company will typically load DD data via an annual 'rectification' process which depends on precise calendar data. Failure to generate this data correctly may result in multiple negative impacts that are difficult and/or costly to fix: missed or delayed submissions, payment reconciliation issues, knock-on impact on future claims, damage to reputation or the company's Service User status.
 - By factoring in extra holidays / office closure dates which can be added manually by the user, the app is also flexible and can comprehensively cover all non-processing days.
-- The app has been manually debugged and tested, and will be further unit-tested before deployment, using the Mocha testing framework.
 
 ## Features :heavy_check_mark:
 
 - Bank holidays are calculated using the [UK Government Bank Holidays API](https://www.api.gov.uk/gds/bank-holidays/#bank-holidays), which returns bank holiday data in JSON format. Depending on the year selected, this is parsed and added to a list of bank holiday dates (from the current year and late previous year, due to processes overlapping calendar years).
 - Weekend dates are calculated using the [JavaScript Date object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). Again this includes some overlap into the previous and next calendar year.
-- Your organisation may have extra holidays or office closures, which are not accounted for in the standard list of bank holidays or weekends. The app therefore allows you to enter further dates individually ('DD/MM/YYYY' format). Clicking 'Add' will add this to a display list, and also to the collection of 'non-processing' dates that are factored into the calculation.
-- The app can calculate:
-  - **Claim date** - this is the 5th or 19th of each month (as specified by the requesting organisation)
-  - **Payment Date** - this is the 5th or 19th (as per claim date), adjusted according to working days. The app compares the date with all non-working dates, and shifts the date forwards by 1 working day if this falls on a non-working date.
-  - **Bank processing date** - this is 1 working day before the payment date. The date will be shifted back by 1 working day if this falls on a non-working date.
-  - **Claim file submission** - this is 1 working day before the bank processing date. The date will again be shifted back by 1 working day if this falls on a non-working date.
-  - **Claim run** - the claim file submission depends on this process, which runs 1 working day before. The date will again be shifted back by 1 working day if this falls on a non-working date.
-  - **DD Dedupe Report** - DDs flagged as duplicates will be removed ('de-duplicated') 3 working days before the claim run. To ensure this, if there are any non-working dates which are presented between the default Dedupe date and the claim run date, this date will be shifted backwards by the appropriate number of working days.
-  - **ARUDD reporting** - reporting for ARUDD (Automated Return of Unpaid Direct Debits) will occur 1 working day after the payment date. The date will be shifted forwards by 1 working day if this falls on a non-working day.
-  - **ARUDD reporting sweep-up** - this will occur 1 working day after ARUDD reporting, and will be shifted forwards by 1 working day if this falls on a non-working day. 
-  - All results are displayed in standard table format, and can be easily viewed or copied as necessary.
-- Results can be copied to the clipboard, and pasted into an Excel spreadsheet if desired.
+- Your organisation may have extra holidays or office closures, which are not accounted for in the standard list of bank holidays or weekends. The app therefore allows you to enter further 'company holiday' dates individually. Clicking 'Add' will add this to a display list, and also to the collection of 'non-processing' dates that are factored into the calculation. You can also delete these after adding them if desired, and the results table will update dynamically to reflect this.
+- After completing the form, the results calendar is displayed under the 'Processing Days' tab.
+- All other dates used for the calculation - company Holidays, bank holidays and weekends - are also displayed on separate tabs.
+- A copy button allows the user to copy the results to their clipboard in the correct format, and paste into an Excel spreadsheet.
 
 ## Technologies :floppy_disk:
 
@@ -35,26 +31,9 @@
 - JavaScript
 - React
 - React-BootStrap
-- Mocha (JS testing framework) with Chai (testing assertion library)
 - Git Version Control
-
-## How to Use :page_with_curl:
-
-- In the text input box, enter any holidays (i.e. office closure dates) from the current *and* previous year (DD/MM/YYYY format) and click the 'Add' button after each entry. Repeat as necessary. You should now see these displayed underneath the form.
-- Choose a year from the dropdown menu
-- Click 'Give me dates'. You should now see a list of ad hoc holiday dates, bank holiday dates, and weekends, followed by a table displaying your DD calendar dates.
-- For easy export in the correct table layout and format, navigate to the 'Processing Days' tab and then click 'Copy Table.' This will copy the results to your clipboard, to be pasted into Excel or as required.
-
-## Testing and Debugging :computer:
-
-The app uses a four-phase test pattern (setup, exercise, verify, teardown) to unit-test functions and ensure that they are reliable. To run the test suite:
-- Open the Developer Tools in your browser (in Chrome, Ctrl + Shift + I) and open the Console tab.
-- Type `mocha.run()` in the console and press enter.
-- The test suite should now run and display the results on your page:
-
-![Mocha test screenshot](https://github.com/JamieBarlow/weekend-bankhol/blob/master/resources/mochatest.PNG)
-
-- Note that the 'E2E' test will only pass if you first run the app by choosing a year and clicking 'Calculate dates.' The app needs to run its calculations, whose output are then tested against a set of mock data (currently available for 2020-23 only, other years will not pass E2E testing regardless). E2E testing also doesn't currently account for extra company holiday dates, so you will need to omit these and select a year only.
+- Netlify
+- Vitest / Jest
 
 ## Development Challenges and Lessons :wrench:
 
