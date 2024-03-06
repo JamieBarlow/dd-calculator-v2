@@ -173,6 +173,6 @@ export default function displayProcessingDays(year, nonProcessingDays) {
     processingDays.push(day);
   }
 
-  console.log("processingDays:", processingDays);
+  // console.log("processingDays:", processingDays);
   return processingDays;
 }
